@@ -197,7 +197,7 @@ export class SubscriptionInterceptor implements Provider<Interceptor> {
           [key: string]: string | number | string[] | Date;
         } = args[1];
         // Check if user has access to his own data
-        if (!canAccessHisSubscriptionData(this.currentUser.id, subscription?.citizenId)) {
+        if (!(this.currentUser.roles && this.currentUser.roles.indexOf("service_maas") >= 0) && !canAccessHisSubscriptionData(this.currentUser.id, subscription?.citizenId)) {
           throw new ForbiddenError(SubscriptionInterceptor.name, invocationCtx.methodName, {
             currentUserId: this.currentUser.id,
             citizenId: subscription?.citizenId,
@@ -205,7 +205,7 @@ export class SubscriptionInterceptor implements Provider<Interceptor> {
         }
 
         // Check subscription status
-        if (subscription?.status !== SUBSCRIPTION_STATUS.DRAFT) {
+        if (subscription?.status !== SUBSCRIPTION_STATUS.DRAFT && subscription?.status !== SUBSCRIPTION_STATUS.TO_PROCESS) {
           throw new ConflictError(
             SubscriptionInterceptor.name,
             invocationCtx.methodName,
