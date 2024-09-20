@@ -19,6 +19,9 @@
           <%if (comment) { %>
           <p>Commentaire : <%= comment %></p>
           <% } %>
+          <%if (specificFields && specificFields.textelibre) { %>
+            <p><%= specificFields.textelibre %></p>
+          <% } %>
         </div>
         <div>
           <p>
