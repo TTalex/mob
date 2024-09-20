@@ -77,6 +77,7 @@ import {
   AdditionalProps,
   PAYMENT_MODE,
   Logger,
+  SECURITY_SPEC_JWT_KC_CREDENTIALS,
 } from '../utils';
 import {
   AffiliationInterceptor,
@@ -1247,13 +1248,13 @@ export class SubscriptionController {
     }
   }
 
-  @authorize({allowedRoles: [Roles.MAAS], voters: [checkMaas]})
+  @authorize({allowedRoles: [Roles.MAAS, Roles.MAAS_BACKEND], voters: [checkMaas]})
   @intercept(AffiliationInterceptor.BINDING_KEY)
   @intercept(SubscriptionInterceptor.BINDING_KEY)
   @patch('/v1/subscriptions/{subscriptionId}', {
     'x-controller-name': 'Subscriptions',
     summary: 'Modifie une souscription',
-    security: SECURITY_SPEC_JWT,
+    security: SECURITY_SPEC_JWT_KC_CREDENTIALS,
     tags: ['Subscriptions', TAG_MAAS],
     responses: {
       [StatusCode.NoContent]: {
