@@ -420,6 +420,7 @@ export class SubscriptionService {
     motif?: string | null,
     comments?: string | null,
     amount?: number | null,
+    specificFields?: {[prop: string]: any} 
   ) {
     const subscriptionsLink = `${WEBSITE_FQDN}/mon-dashboard`;
 
@@ -435,6 +436,7 @@ export class SubscriptionService {
         comment: comments,
         amount: amount,
         username: capitalize(firstName),
+        specificFields: specificFields
       },
     );
   }
@@ -623,6 +625,7 @@ export class SubscriptionService {
           null,
           result?.comments,
           result?.amount,
+          subscription.specificFields
         ),
       );
       Logger.info(
